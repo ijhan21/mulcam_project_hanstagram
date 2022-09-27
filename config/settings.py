@@ -30,12 +30,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'content',
+    'user',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
 ]
 
 MIDDLEWARE = [
@@ -131,3 +134,5 @@ MEDIA_URL = '/media/' # 항상 / 로 끝나도록 설정
 MEDIA_ROOT = BASE_DIR/ 'media'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+# 커스텀 유저 모델 사용
+AUTH_USER_MODEL = 'user.User'
