@@ -1,0 +1,134 @@
+{% extends 'common/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/style.css'%}">
+
+<div style="display: flex; flex-direction: row;text-align: center; justify-content: center;padding-top: 60px; background-color:#FAFAFA">
+    <div style="padding: 20px 60px">
+        <div class="box" style="width: 175px; height: 175px;">
+            <img class="profile"
+                 src="https://shop-phinf.pstatic.net/20220124_58/1643007905108LRI7J_JPEG/MSB2US1201LGR_MDL.JPG?type=ff500_500">
+
+        </div>
+    </div>
+    <div style="text-align: left">
+        <div style="display: flex; flex-direction: row; margin: 20px 0">
+            <div style="font-size: 26px; margin-right: 40px">
+                {{ user.nickname }}
+            </div>
+            <button id="button_profile_upload" style="margin-right: 40px"> 프로필 사진 편집</button>
+            <input type="file" id="input_fileupload" onchange="profile_upload();" style="display: none" />
+            <span class="material-icons-outlined" style="margin-right: 40px">settings</span>
+        </div>
+
+        <div style="margin-bottom: 20px">
+            게시물 내 게시물건수  팔로워 111 팔로잉 111
+        </div>
+        <div>
+            <b>{{ user.name }}</b>
+        </div>
+    </div>
+</div>
+<div style="border-top: solid 2px rgba(50,50,50,0.1); width: 100%">
+
+    <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; margin: 20px">
+        <div id="button_feed_list" style="cursor: pointer;margin: 0 30px;display: flex; flex-direction: row;align-items: center"><span class="material-icons-outlined">grid_on</span>내 게시물</div>
+        <div id="button_feed_like_list" style="cursor: pointer;margin: 0 30px;display: flex; flex-direction: row;align-items: center"><span class="material-icons-outlined">favorite_border</span>좋아요</div>
+        <div id="button_feed_bookmark_list" style="cursor: pointer;margin: 0 30px;display: flex; flex-direction: row;align-items: center"><span class="material-icons-outlined">bookmark_border</span>북마크</div>
+    </div>
+
+</div>
+<div id="feed_list" style="width: 100%; min-width: 1000px; display: flex; align-items: center;justify-content: center">
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap; width: 1000px; justify-content: center">
+        {% for feed in feed_list %}
+            <div style="width: 300px;height: 300px; margin: 10px 5px 0px 5px;">
+
+                <div><img style="width: 300px;height: 300px; object-fit: cover"
+                          src="https://shop-phinf.pstatic.net/20220124_58/1643007905108LRI7J_JPEG/MSB2US1201LGR_MDL.JPG?type=ff500_500">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<div id="like_feed_list" style="width: 100%; min-width: 1000px; display: none; align-items: center;justify-content: center">
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap; width: 1000px; justify-content: center">
+        {% for feed in like_feed_list %}
+            <div style="width: 300px;height: 300px; margin: 10px 5px 0px 5px;">
+
+                <div><img style="width: 300px;height: 300px; object-fit: cover"
+                          src="https://shop-phinf.pstatic.net/20220124_58/1643007905108LRI7J_JPEG/MSB2US1201LGR_MDL.JPG?type=ff500_500">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div id="bookmark_feed_list" style="width: 100%; min-width: 1000px; display: none; align-items: center;justify-content: center">
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap; width: 1000px; justify-content: center">
+        {% for feed in bookmark_feed_list %}
+            <div style="width: 300px;height: 300px; margin: 10px 5px 0px 5px;">
+
+                <div><img style="width: 300px;height: 300px; object-fit: cover"
+                          src="https://shop-phinf.pstatic.net/20220124_58/1643007905108LRI7J_JPEG/MSB2US1201LGR_MDL.JPG?type=ff500_500">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- 첫번째 모달 -->
+<div id="first_modal" class="modal_overlay">
+    <div class="modal_window">
+        <div style="display: flex; flex-direction: row; justify-content: space-between">
+            <div style="width: 40px; background: gray">
+
+            </div>
+            <div>
+                새 이미지 업로드
+            </div>
+            <div style="width: 40px; background: gray">
+                <span class="modal_close material-icons-outlined">close</span>
+            </div>
+        </div>
+
+        <div class="img_upload_space" style="border-top: solid 1px gray;width: 778px; height: 540px;margin-top: 10px">
+
+        </div>
+    </div>
+</div>
+
+<!-- 두번째 모달 -->
+<div id="second_modal" class="modal_overlay">
+    <div class="modal_window">
+        <div style="display: flex; flex-direction: row; justify-content: space-between">
+            <div style="width: 40px; background: gray">
+
+            </div>
+            <div>
+                새 이미지 업로드
+            </div>
+            <div style="width: 40px; background: gray">
+                <span class="modal_close material-icons-outlined">close</span>
+            </div>
+        </div>
+
+        <div style="border-top: solid 1px gray;display: flex; flex-direction: row;margin-top: 10px">
+            <div class="img_upload_space" style="width: 500px; height: 540px;">
+
+            </div>
+            <div style="border-left: solid 1px gray">
+                <div>
+                    <textarea id="input_feed_content" class="form-control" style="width: 276px; height: 400px"
+                              id="exampleFormControlTextarea1" rows="5"></textarea>
+                </div>
+                <button id="feed_create_button" type="button" class="btn btn-primary" style="width: 100%">
+                    공유하기
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- javascript는 마지막에 넣어야 동작되는구나 -->
+<script type="text/javascript" src="{% static 'js/script_src.js'%}"></script>
+{%endblock%}
