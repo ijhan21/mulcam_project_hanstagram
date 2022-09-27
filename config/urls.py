@@ -17,9 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 import user
 import content
+from django.conf.urls.static import static
+from .settings import MEDIA_URL, MEDIA_ROOT
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('user.urls')),
     path('', include('content.urls')),
 ]
+urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)

@@ -7,5 +7,10 @@
 <h1>main</h1>
 <h1>main</h1>
 </div>
-{{user.is_authenticated}}
+{% if user.is_authenticated %}
+<h1>로그인 됨</h1>
+{% else %}
+<h1>로그아웃됨</h1>
+{%endif%}
+{{user.username}}
 {%endblock%}

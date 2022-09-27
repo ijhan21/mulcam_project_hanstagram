@@ -7,6 +7,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from config.settings import MEDIA_ROOT
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 class Join(APIView):
     def get(self, request):
@@ -50,9 +52,9 @@ class Login(APIView):
 
 class LogOut(APIView):
     def get(self, request):
-        request.session.flush()
-        return render(request, "user/login.html")
-
+        logout(request)
+        # request.session.flush()
+        return render(request, "content/main.html")
 
 class UploadProfile(APIView):
     def post(self, request):
