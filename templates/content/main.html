@@ -1,16 +1,44 @@
 {% extends 'common/base.html' %}
+{% load static %}
 {% block content %}
-<div style="display: flex; flex-direction: row;text-align: center; justify-content: center;padding-top: 60px; background-color:#d12020">
-<h1>main</h1>
-<h1>main</h1>
-<h1>main</h1>
-<h1>main</h1>
-<h1>main</h1>
+<link rel="stylesheet" href="{% static 'css/style_main.css'%}">
+
+<div class="main_body">
+    <div class="left_body">
+        <div class="border feed_box">
+            <div class="feed_name">
+                <div class="profile_box">
+                    <img class="profile_img"
+                        src="{% get_media_prefix%}{{user.profile_image}}">
+                </div>
+                <span class="feed_name_txt"> {{user.nickname}}</span>
+            </div>
+            <img class="feed_img "
+                src="https://mblogthumb-phinf.pstatic.net/MjAxNzA2MTFfMjc1/MDAxNDk3MTcyMDgyNzEw.ID5RyHWKvsVEW2NS9EQGyRYX7vUaXr7znQeuTrRRmdIg.gK7MD7VhNJPkV4_dueiWer2y-oH7NAAmEklF-6bbYyQg.JPEG.jejubyeol/%EC%97%AC%EB%A6%84%EC%97%90_%EC%A0%9C%EC%A3%BC%EB%8F%84_%EC%82%AC%EC%A7%84%EC%B0%8D%EA%B8%B0_%EC%A2%8B%EC%9D%80%EA%B3%B3.jpg?type=w800">
+            <div class="feed_icon">
+                <div>
+                    <span class="material-icons-outlined">
+                        favorite_border
+                    </span>
+                    <span class="material-icons-outlined">
+                        mode_comment
+                    </span>
+                    <span class="material-icons-outlined">
+                        send
+                    </span>
+                </div>
+            </div>
+            <div class="feed_content">
+                <p class="feed_txt"> <b> jin.99 </b> 코로나라서 해외여행을 못가니 최근 제주도 가는사람이 늘고있습니다~ 제주도도 조심해야되는건 마찬가지~!</p>
+            </div>
+            <div class="feed_reply">
+                <span class="feed_txt"> <b> mychew </b> 제주도 가고 싶어요 ㅠㅠ</span>
+                <span class="feed_txt"> <b> cho </b> 제주도 ㄱ ㄱ </span>
+            </div>
+        </div>
+    </div>
+    <div class="right_body">
+        오른쪽화면
+    </div>
 </div>
-{% if user.is_authenticated %}
-<h1>로그인 됨</h1>
-{% else %}
-<h1>로그아웃됨</h1>
-{%endif%}
-{{user.username}}
 {%endblock%}

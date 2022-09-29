@@ -1,1 +1,5 @@
 config/__pycache__/*
+*.pyc
+media/
+content/__pycache__/*
+content/__pycache__/models.cpython-310.pyc
