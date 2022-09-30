@@ -11,6 +11,8 @@ class Feed(models.Model):
 
     def __str__(self):
         return self.content
+    class Meta:
+        ordering=['-create_date']
 
 class Reply(models.Model):
     email = models.ForeignKey(User, on_delete=models.CASCADE, related_name='email_reply') # 글쓴이
