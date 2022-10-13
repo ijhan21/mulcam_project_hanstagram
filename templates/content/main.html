@@ -5,22 +5,22 @@
 
 <div class="main_body">
     <div class="left_body">
+        
         {% for feed in feed_list %}
         <div class="border feed_box">
             <div class="feed_name">
                 <div class="profile_box">
-                    <img class="profile_img"
-                        src="{% get_media_prefix%}{{feed.email.profile_image}}">
+                    <img class="profile_img" src="{% get_media_prefix%}{{feed.email.profile_image}}">
                 </div>
                 <span class="feed_name_txt"> {{feed.email.nickname}} {{feed.id}}</span>
             </div>
-            <img class="feed_img "
-                src="{% get_media_prefix%}{{feed.image}}">
+            <img class="feed_img " src="{% get_media_prefix%}{{feed.image}}">
             <div class="feed_icon">
                 <div>
-                    <span class="material-icons-outlined">
-                        favorite_border
-                    </span>
+                    <a href="{% url 'content:like_count' feed.id %}"><span class="material-icons-outlined">
+                            favorite_border
+                        </span>
+                    </a>
                     <span class="material-icons-outlined">
                         mode_comment
                     </span>
@@ -30,15 +30,17 @@
                 </div>
                 <div>
                     <span class="material-icons-outlined">
-                      turned_in_not
+                        turned_in_not
                     </span>
-                  </div>
+                </div>
             </div>
+            
             <div class="feed_like">
-                <p class="feed_txt"> <b>좋아요 {{feed.likes.count}}개
-                    
-                </b></p>
-              </div>
+                
+                <input type="hidden" value="{{feed.id}}">
+                <p class="feed_txt"> <b>좋아요 {{feed.likes.count}} {{feed.id}} 개
+                    </b></p>
+            </div>
             <div class="feed_content">
                 <p class="feed_txt"> <b>{{user.nickname}} </b>{{feed.content}}</p>
             </div>
@@ -51,18 +53,37 @@
         {% endfor %}
     </div>
     <div class="right_body">
+        {% if messages %}
+        <div class="alert alert-danger my-3" role="alert">
+            {%for message in messages%}
+            <strong>{{message.tag}}</strong>
+            <ul>
+                <li>{{message.message}}</li>
+            </ul>
+            {%endfor%}
+        </div>
+        {%endif%}
         <div class="feed_name" style="justify-content: space-between;">
             <div style="display: flex; align-items:center;">
+                <!-- 사용자 오류 표시 -->
+                {% if user.is_authenticated %}
                 <div class="big_profile_box">
-                    <img class="profile_img"
-                        src="{% get_media_prefix%}{{user.profile_image}}">
+                    <img class="profile_img" src="{% get_media_prefix%}{{user.profile_image}}">
                 </div>
                 <div class="name_content">
                     <span class="feed_name_txt">{{user.nickname}}</span>
                     <span class="name_content_txt">{{user.nickname}}</span>
-                </div>                
-            </div>    
-            <a href="" class="link_txt btn btn-primary">전환</a>
+                </div>
+                {%else%}
+                <div class="big_profile_box">
+                    <img class="profile_img" src="{% static 'img/django.png'%}">
+                </div>
+                <div class="name_content">
+                    <span class="feed_name_txt">{{user.nickname}}</span>
+                    <span class="name_content_txt">{{user.nickname}}</span>
+                </div>
+                {%endif%}
+            </div>
         </div>
 
         <div class="recommend_box">
@@ -72,38 +93,39 @@
         <div>
             <div class="feed_name" style="justify-content: space-between">
                 <div class="profile_box">
-                  <img class="profile_img"
-                       src="https://i.pinimg.com/736x/93/a6/8b/93a68b57a54e4bdc73d43d1d049b94b3.jpg">
+                    <img class="profile_img"
+                        src="https://i.pinimg.com/736x/93/a6/8b/93a68b57a54e4bdc73d43d1d049b94b3.jpg">
                 </div>
                 <div class="name_content">
-                  <span class="feed_name_txt"> dation3388 </span>
-                  <span class="name_content_txt"> Jinstargram </span>
+                    <span class="feed_name_txt"> dation3388 </span>
+                    <span class="name_content_txt"> Jinstargram </span>
                 </div>
                 <a class="link_txt btn btn-primary">
                     팔로우
-                  </a>
-              </div>
+                </a>
+            </div>
 
-              <div class="feed_name" style="justify-content: space-between">
+            <div class="feed_name" style="justify-content: space-between">
                 <div class="profile_box">
-                  <img class="profile_img"src="http://file3.instiz.net/data/cached_img/upload/2021/01/27/18/2ce2f41f7e9f09c0acc77faac7452dbf.jpg">
+                    <img class="profile_img"
+                        src="http://file3.instiz.net/data/cached_img/upload/2021/01/27/18/2ce2f41f7e9f09c0acc77faac7452dbf.jpg">
                 </div>
                 <div class="name_content">
                     <span class="feed_name_txt"> gaoudi </span>
                     <span class="name_content_txt"> IU 외 5명이 팔로우</span>
-                  </div>
-                  <a class="link_txt btn btn-primary">
-                    팔로우
-                  </a>
                 </div>
+                <a class="link_txt btn btn-primary">
+                    팔로우
+                </a>
+            </div>
         </div>
         <div class="comment_box">
             <span> 인스타그램 클론 코딩 </span>
             <span> Multicampus Hanstagram </span>
             <br>
             <span> 2022 09 29 </span>
-      
-          </div>
+
+        </div>
     </div>
 </div>
 <!-- modal1 -->
@@ -116,11 +138,11 @@
                 <span class="material-icons-outlined close_modal">
                     close
                 </span>
-            </div>            
+            </div>
         </div>
         <div class="modal_image_upload">
             <span style="text-align: center"> 사진을 여기에 끌어다 놓으세요. </span>
-        </div>        
+        </div>
     </div>
 </div>
 
@@ -134,7 +156,7 @@
                 <span class="material-icons-outlined close_modal">
                     close
                 </span>
-            </div>   
+            </div>
         </div>
         <div class="modal_image_content">
             <div id="input_image" class="modal_image_upload_content">
@@ -143,16 +165,19 @@
             <div class="modal_content_write">
                 <div class="feed_name">
                     <div class="profile_box">
-                        <img id="input_profile_image" class="profile_img" src="{%get_media_prefix%}{{user.profile_image}}">
+                        <img id="input_profile_image" class="profile_img"
+                            src="{%get_media_prefix%}{{user.profile_image}}">
                     </div>
                     <span id="" class="feed_name_txt"> {{user.nickname}} </span>
-                    <input type="hidden" id="input_user_id" value="{{user.email}}">                    
+                    <input type="hidden" id="input_user_id" value="{{user.email}}">
                 </div>
                 <div style="height: 440px">
-                    <textarea id="input_content" class="feed_content_textarea form-control col-sm-5" rows="10" placeholder="설명을 입력하세요..."></textarea>
+                    <textarea id="input_content" class="feed_content_textarea form-control col-sm-5" rows="10"
+                        placeholder="설명을 입력하세요..."></textarea>
                 </div>
                 <div style="width: 100%; text-align: center">
-                    <button id="button_write_feed" type="button" class="btn btn-primary" style="width: 268px"> 공유하기</button>
+                    <button id="button_write_feed" type="button" class="btn btn-primary" style="width: 268px">
+                        공유하기</button>
                 </div>
             </div>
         </div>
@@ -162,13 +187,13 @@
     let files;
     const modal = document.getElementById("first_modal");
     const buttonAddFeed = document.getElementById("nav_bar_add_box");
-    buttonAddFeed.addEventListener("click", e=>{
-        modal.style.top = window.pageYOffset+'px';
-        modal.style.display = 'flex';        
+    buttonAddFeed.addEventListener("click", e => {
+        modal.style.top = window.pageYOffset + 'px';
+        modal.style.display = 'flex';
         document.body.style.overflowY = 'hidden';
     });
 
-    $(".modal_close").click(function () {
+    $(".close_modal").click(function () {
         $('#first_modal').css({
             display: 'none'
         });
@@ -178,14 +203,14 @@
     });
 
     $('.modal_image_upload')
-    .on("dragover", dragOver)
-    .on("dragleave", dragOver)
-    .on("drop", uploadFiles);
+        .on("dragover", dragOver)
+        .on("dragleave", dragOver)
+        .on("drop", uploadFiles);
 
-    function dragOver(e){
+    function dragOver(e) {
         e.stopPropagation();
         e.preventDefault();
-        
+
         if (e.type == "dragover") {
             $(e.target).css({
                 "background-color": "black",
@@ -198,12 +223,12 @@
             });
         }
     };
-    function uploadFiles(e){
+    function uploadFiles(e) {
         e.stopPropagation();
         e.preventDefault();
-        
-        e.dataTransfer = e.originalEvent.dataTransfer; 
-        files =  e.target.files || e.dataTransfer.files;
+
+        e.dataTransfer = e.originalEvent.dataTransfer;
+        files = e.target.files || e.dataTransfer.files;
         console.log("뭔가 파일을 올렸네??" + files[0].name);
 
         if (files.length > 1) {
@@ -212,24 +237,24 @@
         }
 
         if (files[0].type.match(/image.*/)) {
-            $('#second_modal').css({display:'flex'});
+            $('#second_modal').css({ display: 'flex' });
             $('.modal_image_upload_content').css({
                 "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
                 "outline": "none",
                 "background-size": "contain",
-                "background-repeat" : "no-repeat",
-                "background-position" : "center"
+                "background-repeat": "no-repeat",
+                "background-position": "center"
             });
             $('#first_modal').css({
-                display:'none'
+                display: 'none'
             })
-        }else{
+        } else {
             alert('이미지가 아닙니다.');
             return;
         }
     };
 
-    $('#button_write_feed').on('click', ()=>{
+    $('#button_write_feed').on('click', () => {
         const image = $('#input_image').css("background-image").replace(/^url\(['"](.+)['"]\)/, '$1');
         const content = $('#input_content').val();
         // const profile_image = $('#input_profile_image').attr('src');
@@ -245,20 +270,17 @@
         // fd.append('profile_image', profile_image);
         fd.append('user_id', user_id);
         fd.append('csrfmiddlewaretoken', "{{ csrf_token }}")
-        if(image.length <= 0)
-        {
+        if (image.length <= 0) {
             alert("이미지가 비어있습니다.");
         }
-        else if(content.length <= 0)
-        {
+        else if (content.length <= 0) {
             alert("설명을 입력하세요");
         }
-        
-        else if(user_id.length <= 0)
-        {
+
+        else if (user_id.length <= 0) {
             alert("사용자 id가 없습니다.");
         }
-        else{
+        else {
             writeFeed(fd);
             console.log(files[0]);
         }
@@ -277,7 +299,7 @@
             error: function (request, status, error) {
                 console.log("에러");
             },
-            complete: function() {
+            complete: function () {
                 console.log("무조건실행");
                 location.reload();
             }

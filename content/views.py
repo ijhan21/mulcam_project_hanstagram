@@ -2,13 +2,16 @@ import email
 from multiprocessing import context
 import profile
 from uuid import uuid4
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import *
 from config import settings
 import os
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 # Create your views here.
 # def index(request):
@@ -42,4 +45,15 @@ class UploadFeed(APIView):
         user = User.objects.get(email='hans')#[0]
         Feed.objects.create(email=user, content=content,image=image, create_date=create_date)
         return Response(status=200)
-    
+
+@login_required(login_url='user:login')    
+def like_count(request, id):
+    feed = Feed.objects.get(id=id)
+    if request.user.username == feed.email.username:
+        messages.error(request, '본인이 작성한 글은 추천할 수 없습니다.')
+    else:
+        if feed.likes.filter(email=request.user):
+            feed.likes.remove(request.user)
+        else:
+            feed.likes.add(request.user)
+    return redirect('content:index')
