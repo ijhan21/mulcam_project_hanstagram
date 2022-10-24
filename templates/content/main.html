@@ -12,7 +12,7 @@
                 <div class="profile_box">
                     <img class="profile_img" src="{% get_media_prefix%}{{feed.email.profile_image}}">
                 </div>
-                <span class="feed_name_txt"> {{feed.email.nickname}} {{feed.id}}</span>
+                <span class="feed_name_txt"> {{feed.email.nickname}}</span>
             </div>
             <img class="feed_img " src="{% get_media_prefix%}{{feed.image}}">
             <div class="feed_icon">
@@ -38,17 +38,17 @@
             <div class="feed_like">
                 
                 <input type="hidden" value="{{feed.id}}">
-                <p class="feed_txt"> <b>좋아요 {{feed.likes.count}} {{feed.id}} 개
+                <p class="feed_txt"> <b>좋아요 {{feed.likes.count}} 개
                     </b></p>
             </div>
             <div class="feed_content">
                 <p class="feed_txt"> <b>{{user.nickname}} </b>{{feed.content}}</p>
             </div>
-            <div class="feed_reply">
+            <!-- <div class="feed_reply">
                 <span class="feed_txt"> <b> mychew </b> 제주도 가고 싶어요 ㅠㅠ</span>
                 <span class="feed_txt"> <b> cho </b> 제주도 ㄱ ㄱ </span>
 
-            </div>
+            </div> -->
         </div>
         {% endfor %}
     </div>
